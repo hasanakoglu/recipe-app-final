@@ -2,8 +2,8 @@
 //  ViewController.swift
 //  RecipeApp
 //
-//  Created by DevPair3 on 19/02/2018.
-//  Copyright © 2018 ford. All rights reserved.
+//  Created by Hasan on 19/02/2018.
+//  Copyright © 2018 hasanakoglu. All rights reserved.
 //
 
 import UIKit
@@ -18,12 +18,28 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Vegan Recipes"
+        configureView()
+        title = "Earth Rose"
+//        let attributes = [NSAttributedStringKey.font: UIFont(name: "Avenue du Vapoteur.ttf", size: 17)]
+//        UINavigationBar.appearance().titleTextAttributes = attributes
         let model = VideoModel()
         self.videos = model.getVideos() //gets method from videomodel, we assign it to self.videos so later when the tableview asks for it to be displayed it can just access it here
         
         self.tableView.dataSource = self
         self.tableView.delegate = self // assigned both datasource and delegate to viewcontroller to know how many rows etc
+        
+    }
+    
+    func configureView() {
+        
+        // Change the font and size of nav bar text
+        if let navBarFont = UIFont(name: "Sophia", size: 36.0) {
+            let navBarAttributesDictionary: [NSObject: AnyObject]? = [
+                NSAttributedStringKey.foregroundColor as NSObject: UIColor.white,
+                NSAttributedStringKey.font as NSObject: navBarFont
+            ]
+            navigationController?.navigationBar.titleTextAttributes = navBarAttributesDictionary as! [NSAttributedStringKey : Any]
+        }
     }
 
     //for setting the height and width of the cells
@@ -45,13 +61,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         let videoTitle = videos[indexPath.row].videoTitle //pass in indexpath.row to give the video object and then assign the string videotitle
         let cookingTime = videos[indexPath.row].cookingTime
+        let videoImage = videos[indexPath.row].videoImage
         
         //get the label for the cell
         let label = cell.viewWithTag(2) as! UILabel
         label.text = videoTitle
+        label.numberOfLines = 1
+        label.allowsDefaultTighteningForTruncation = true
         
         let label2 = cell.viewWithTag(3) as! UILabel
         label2.text = cookingTime
+        
+        let imageView2 = cell.viewWithTag(4) as! UIImageView
+        imageView2.image = videoImage
+
         
         
 //        //customize the cell to display video title
@@ -59,6 +82,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         
         //THIS SECTION BELOW IS TO GET THE VIDEO THUMBNAILS INTO THE TABLEVIEW, THESE ARE MUST HAVES FOR IT TO WORK
+        
         
         // construct video thumbnail
         let videoThumbnailUrlString = "https://img.youtube.com/vi/" + videos[indexPath.row].videoId + "/maxresdefault.jpg";
@@ -78,7 +102,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data:Data?, response:URLResponse?, error:Error?) in
                 
                 DispatchQueue.main.async {
-                    // Get a reference to the imageview element fo the cell
+                    // Get a reference to the imageview element of the cell
                     let imageView = cell.viewWithTag(1) as! UIImageView
                     
                     // Create an image object from the data and asign it into the imageview

@@ -2,8 +2,8 @@
 //  VideoDetailViewController.swift
 //  RecipeApp
 //
-//  Created by DevPair3 on 19/02/2018.
-//  Copyright © 2018 ford. All rights reserved.
+//  Created by Hasan on 19/02/2018.
+//  Copyright © 2018 hasanakoglu. All rights reserved.
 //
 
 import UIKit
@@ -17,6 +17,7 @@ class VideoDetailViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet weak var webView: UIWebView!
     
     @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var imageView: UIImageView!
     
     @IBOutlet weak var descriptionLabel: UILabel!
     
@@ -29,6 +30,8 @@ class VideoDetailViewController: UIViewController, UITableViewDelegate, UITableV
         
         tableView.delegate = self
         tableView.dataSource = self
+        let attr = NSDictionary(object: UIFont(name: "TheanoDidot-Regular", size: 16.0)!, forKey: NSAttributedStringKey.font as NSCopying)
+        UISegmentedControl.appearance().setTitleTextAttributes(attr as [NSObject : AnyObject] , for: .normal)
 
 
         // Do any additional setup after loading the view.
@@ -46,7 +49,20 @@ class VideoDetailViewController: UIViewController, UITableViewDelegate, UITableV
             self.descriptionLabel.text = vid.videoDescription
             
             let width = self.view.frame.size.width
-            let height = (width/320) * 180
+            let height = (width/320) * 220
+
+
+            self.imageView.center = self.view.center;
+            self.imageView.image = vid.videoImage
+
+            
+            if vid.videoId == "QVkGFz0UFso" {
+                self.imageView.image = nil
+            }
+            
+            titleLabel.numberOfLines = 1
+            descriptionLabel.numberOfLines = 1
+            
             
             //adjust the height of webview
             self.webViewHeightConstraint.constant = height
@@ -85,19 +101,22 @@ class VideoDetailViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
     {
-                
-        let ingredientText = selectedVideo!.ingredients[indexPath.row]
-        let directionText = selectedVideo!.directions[indexPath.row]
-        
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "InstructionCell", for: indexPath)
         
         switch segmentedControl.selectedSegmentIndex {
         case 0:
+            let ingredientText = selectedVideo?.ingredients[indexPath.row]
             cell.textLabel?.text = ingredientText
+            cell.textLabel?.font = UIFont(name: "TheanoDidot-Regular", size: 16.0)
+            cell.textLabel?.numberOfLines = 0
         case 1:
+            let directionText = selectedVideo?.directions[indexPath.row]
             cell.textLabel?.text = directionText
+            cell.textLabel?.font = UIFont(name: "TheanoDidot-Regular", size: 16.0)
+            cell.textLabel?.numberOfLines = 0
         default:
             break
         }
@@ -106,11 +125,24 @@ class VideoDetailViewController: UIViewController, UITableViewDelegate, UITableV
     
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
-    {
-        
-    }
-
-
-
+//    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)
+//    {
+//
+//        let cell = tableView.cellForRow(at: indexPath)
+//
+//        let directionText = selectedVideo!.directions[indexPath.row]
+//
+//        switch segmentedControl.selectedSegmentIndex {
+//        case 0:
+//            let ingredientText: NSMutableAttributedString =  NSMutableAttributedString(string: selectedVideo!.ingredients[indexPath.row])
+//            ingredientText.addAttribute(NSAttributedStringKey.strikethroughStyle, value: 1, range: NSMakeRange(0, ingredientText.length))
+//            cell?.textLabel?.attributedText = ingredientText
+//        case 1:
+//            let attributedString = NSMutableAttributedString(string: directionText)
+//            attributedString.addAttribute(NSAttributedStringKey.strikethroughStyle, value: 1, range: NSMakeRange(0, attributedString.length))
+//            cell?.textLabel?.attributedText = attributedString
+//        default:
+//            break
+//        }
+//    }
 }

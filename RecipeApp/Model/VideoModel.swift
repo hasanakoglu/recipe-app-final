@@ -38,7 +38,7 @@ class VideoModel: NSObject {
         video2.videoImage = UIImage(named: "image2")
         video2.videoTitle = "Creamy Chia Seed Pudding"
         video2.cookingTime = "⏱ Cooking Time: Overnight prep"
-        video2.videoDescription = "⏱ Cooking Time:  Overnight prep"
+        video2.videoDescription = "⏱ Cooking Time:  Overnight preperation"
         video2.ingredients = ["200ml of Dairy-Free Milk","8 tablespoons of Chia Seeds", "1 tablespoon of Raspberry Coulis", "1/4 teaspoon of Maple Syrup."]
         video2.directions = ["In a large bowl, add in the dairy-free milk, chia seeds, raspberry coulis and maple syrup.","Stir till well incorporated  and leave to jellify & thicken.","This will take about 1 hour or you can leave it overnight.","Spoon into a serving glass, top off with more raspberry coulis,maple syrup a sprinkle of desiccated coconut and berries."]
         
